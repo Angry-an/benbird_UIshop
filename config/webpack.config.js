@@ -6,7 +6,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 // @remove-on-eject-end
-'use strict';
+
 
 const fs = require('fs');
 const path = require('path');
@@ -66,7 +66,7 @@ const useTypeScript = fs.existsSync(paths.appTsConfig);
 const swSrc = paths.swSrc;
 
 // style files regexes
-const cssRegex = /\.css$/;
+const cssRegex = /\.(css|less)$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
@@ -111,9 +111,7 @@ module.exports = function (webpackEnv) {
         loader: MiniCssExtractPlugin.loader,
         // css is located in `static/css`, use '../../' to locate index.html folder
         // in production `paths.publicUrlOrPath` can be a relative path
-        options: paths.publicUrlOrPath.startsWith('.')
-          ? { publicPath: '../../' }
-          : {},
+        options: paths.publicUrlOrPath.startsWith('.') ? { publicPath: '../../' } : {},
       },
       {
         loader: require.resolve('css-loader'),
@@ -143,6 +141,9 @@ module.exports = function (webpackEnv) {
           ],
           sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
         },
+      },
+      {
+        loader: require.resolve('less-loader'), // compiles Less to CSS
       },
     ].filter(Boolean);
     if (preProcessor) {
@@ -498,13 +499,6 @@ module.exports = function (webpackEnv) {
                 inputSourceMap: shouldUseSourceMap,
               },
             },
-            // "postcss" loader applies autoprefixer to our CSS.
-            // "css" loader resolves paths in CSS and adds assets as dependencies.
-            // "style" loader turns CSS into JS modules that inject <style> tags.
-            // In production, we use MiniCSSExtractPlugin to extract that CSS
-            // to a file, but in development "style" loader enables hot editing
-            // of CSS.
-            // By default we support CSS Modules with the extension .module.css
             {
               test: cssRegex,
               exclude: cssModuleRegex,
@@ -514,14 +508,8 @@ module.exports = function (webpackEnv) {
                   ? shouldUseSourceMap
                   : isEnvDevelopment,
               }),
-              // Don't consider CSS imports dead code even if the
-              // containing package claims to have no side effects.
-              // Remove this when webpack adds a warning or an error for this.
-              // See https://github.com/webpack/webpack/issues/6571
               sideEffects: true,
             },
-            // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
-            // using the extension .module.css
             {
               test: cssModuleRegex,
               use: getStyleLoaders({
