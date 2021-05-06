@@ -17,12 +17,13 @@ interface BaseButtonProps{
   size?: ButtonSize,
   btnType?: ButtonType,
   disabled?: boolean
-  href?: string
+  href?: string,
+  className?:string
 }
 
 const Button: React.FC<BaseButtonProps> = (props) => {
-  const { children, size, btnType, disabled, href } = props
-  const classes = classNames('btn',
+  const { children, size, btnType, disabled, href,className,...restProps } = props
+  const classes = classNames('btn',className,
     {
       [`btn-${btnType}`]: btnType,
       [`btn-${size}`]: size,
@@ -31,11 +32,11 @@ const Button: React.FC<BaseButtonProps> = (props) => {
   )
   if (btnType === ButtonType.Link && href) {
     return (
-      <a href={href} className={ classes }>{ children }</a>
+      <a href={href} className={ classes } {...restProps}>{ children }</a>
     )
   }
   return (
-    <button className={classes} disabled={ disabled }>{ children }</button>
+    <button className={classes} disabled={ disabled } {...restProps}>{ children }</button>
   )
 }
 
