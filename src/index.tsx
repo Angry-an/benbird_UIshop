@@ -7,9 +7,9 @@ import "./style/index.scss"
 ReactDOM.render(
   <React.StrictMode>
     <Router />
-    <div>
+    {/* <div>
       <h1 className="test">sssssss</h1>
-    </div>
+    </div> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
