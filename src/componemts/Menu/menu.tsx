@@ -35,7 +35,7 @@ const Menu: React.FC<MenuProps> = (props) => {
     'menu-vertical': mode === 'vertical'
   })
   return (
-    <ul className={classs} style={style}>
+    <ul className={classs} style={style} data-testid="menu-test">
       <MenuContext.Provider value={passContext}>
          {children}
       </MenuContext.Provider>
