@@ -13,9 +13,9 @@ function Home() {
       <Button btnType={ButtonType.Link} href="www.tabidu.com">click here</Button>
       <h1>Menu</h1>
       <Menu onSelect={(val)=>{console.log(val)} } mode="vertical">
-        <MenuItem itemIndex ={0}>123</MenuItem>
-        <MenuItem itemIndex ={1} disabled={true}>456</MenuItem>
-        <MenuItem itemIndex ={2}>789</MenuItem>
+        <MenuItem>123</MenuItem>
+        <MenuItem disabled={true}>456</MenuItem>
+        <MenuItem>789</MenuItem>
       </Menu>
       
     </div>
