@@ -14,7 +14,8 @@ export interface MenuProps{
 
 export interface IMenuContext{
   index?: number;
-  onSelect?: SelectCallBack
+  onSelect?: SelectCallBack;
+  mode?: MenuMode;
 }
 
 export const MenuContext = createContext<IMenuContext>({ index: 0 })
@@ -30,7 +31,8 @@ const Menu: React.FC<MenuProps> = (props) => {
   }
   const passContext: IMenuContext= {
     index: currentActive ? currentActive : 0,
-    onSelect: handleClick
+    onSelect: handleClick,
+    mode
   }
   const classs = classNames('benbird-menu', className, {
     'menu-vertical': mode === 'vertical'
@@ -44,13 +46,13 @@ const Menu: React.FC<MenuProps> = (props) => {
     return React.Children.map(children, (child, index) => {
       const childElement = child as React.FunctionComponentElement<MenuItemProps>
       const { displayName } = childElement.type
-      if (displayName === 'menuItem') {
+      if (displayName === 'menuItem' || displayName === 'subMenu') {
         // 给其添加属性
         return React.cloneElement(childElement, {
-          itemIndex: index
+          itemIndex: index+'i'
         })
       } else {
-        console.error('please input correct component')
+        console.error('please input correct menuItem component')
       }
     })
   }
