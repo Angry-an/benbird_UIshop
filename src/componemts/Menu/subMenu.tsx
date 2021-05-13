@@ -7,14 +7,16 @@ export interface SubMenuProps{
   className?: string;
   style?: React.CSSProperties;
   title: string;
+  openSub?: boolean
 }
 
 
 const SubMenu: React.FC<SubMenuProps> = (props) => {
-  const [menuOpen, setMenuOpen] = useState(false)
-
   const { itemIndex, className, style, children,title } = props
   const context = useContext(MenuContext)
+  // const opens = context.defaultOpen as Array<string>
+  const isOpen = context.mode === 'vertical' ? context.defaultOpen?.includes(itemIndex) : false
+   const [menuOpen, setMenuOpen] = useState(isOpen)
   const classs = classNames('submenu-item menu-item',className, {
      'is-active': context.index === itemIndex,
   })
@@ -22,11 +24,11 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
     const subMenuclass = classNames('benbird-submenu', {
       'menu-open': menuOpen
     })
-    const childrenComponent = React.Children.map(children, (child,index) => {
+    const childrenComponent = React.Children.map(children, (child,i) => {
       const childElement = child as any
       if (childElement.type.displayName === 'menuItem') {
         return React.cloneElement(childElement, {
-          itemIndex: index.toString()
+          itemIndex: childElement.props.itemIndex || `${itemIndex}-${i}`
         })
       } else {
         console.log('please input correct submenu component')
@@ -41,9 +43,6 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     setMenuOpen(!menuOpen)
-    // if (context.onSelect && typeof(itemIndex) !== 'undefined') {
-    //   context.onSelect(itemIndex)
-    // }
   }
   const handleMouse = (e: React.MouseEvent, toggle: boolean) => {
     e.preventDefault()
@@ -59,7 +58,7 @@ const SubMenu: React.FC<SubMenuProps> = (props) => {
   return (
     <li className={classs} style={style} key={itemIndex} {...hoverEvent}>
       <div className="submen-title" {...clickEvent}>{title}:{ itemIndex}</div>
-      <div>
+      <div style={ context.mode === 'vertical' ? {} :{'position':'absolute'}}>
         {renderChildren()}
       </div>
     </li>

@@ -5,23 +5,25 @@ import { MenuItemProps } from './menuItem'
 type MenuMode = 'vertical' | 'horizontal'
 type SelectCallBack = (selectedIndex: number)=> void
 export interface MenuProps{
-  defaultIndex?: number;
+  defaultIndex?: any;
   className?: string;
   mode?: MenuMode;
   style?: React.CSSProperties;
-  onSelect?: SelectCallBack
+  onSelect?: SelectCallBack;
+  defaultOpen?:string[]
 }
 
 export interface IMenuContext{
   index?: number;
   onSelect?: SelectCallBack;
   mode?: MenuMode;
+  defaultOpen?:string[]
 }
 
 export const MenuContext = createContext<IMenuContext>({ index: 0 })
 
 const Menu: React.FC<MenuProps> = (props) => {
-  const { className, mode, style, children, defaultIndex, onSelect } = props
+  const { className, mode, style, children, defaultIndex, onSelect,defaultOpen } = props
   const [currentActive, setActive] = useState(defaultIndex)
   const handleClick = (index: number) => {
     setActive(index)
@@ -32,7 +34,8 @@ const Menu: React.FC<MenuProps> = (props) => {
   const passContext: IMenuContext= {
     index: currentActive ? currentActive : 0,
     onSelect: handleClick,
-    mode
+    mode,
+    defaultOpen
   }
   const classs = classNames('benbird-menu', className, {
     'menu-vertical': mode === 'vertical'
@@ -49,7 +52,7 @@ const Menu: React.FC<MenuProps> = (props) => {
       if (displayName === 'menuItem' || displayName === 'subMenu') {
         // 给其添加属性
         return React.cloneElement(childElement, {
-          itemIndex: index+'i'
+          itemIndex: childElement.props.itemIndex || index.toString()
         })
       } else {
         console.error('please input correct menuItem component')
@@ -57,12 +60,15 @@ const Menu: React.FC<MenuProps> = (props) => {
     })
   }
   return (
+    <>
+      <h1>{currentActive}</h1>
     <ul className={classs} style={style} data-testid="menu-test">
       <MenuContext.Provider value={passContext}>
          {renderChildren()}
       </MenuContext.Provider>
      
-    </ul>
+    </ul></>
+    
   )
 }
 Menu.defaultProps = {

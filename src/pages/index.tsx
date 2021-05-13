@@ -12,11 +12,17 @@ function Home() {
       <Button btnType={ ButtonType.Danger }>click</Button>
       <Button btnType={ButtonType.Link} href="www.tabidu.com">click here</Button>
       <h1>Menu</h1>
-      <Menu onSelect={(val) => { console.log(val) }} defaultIndex={ 0} mode="vertical">
-        <MenuItem>123</MenuItem> 
-        <MenuItem disabled={true}>456</MenuItem>
-        <MenuItem>789</MenuItem>
-        <SubMenu title="测试submenu">
+      <Menu onSelect={(val) => { console.log(val) }} defaultIndex={'0'}>
+         <MenuItem>
+        active
+      </MenuItem>
+      <MenuItem disabled={ true }>
+        disabled
+      </MenuItem>
+      <MenuItem>
+        xyz
+      </MenuItem>
+       <SubMenu title="测试submenu2">
             <MenuItem>123</MenuItem>
             <MenuItem>456</MenuItem>
             <MenuItem>789</MenuItem>

@@ -18,7 +18,6 @@ const MenuItem: React.FC<MenuItemProps> = (props) => {
   })
   const handleClick = () => {
     if ((context.onSelect && !disabled) && typeof (itemIndex) !== 'undefined') {
-      console.log(itemIndex,'itemIndex')
       context.onSelect(itemIndex)
     }
   }
