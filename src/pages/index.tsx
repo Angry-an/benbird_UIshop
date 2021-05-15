@@ -17,7 +17,7 @@ function Home() {
       <Button btnType={ ButtonType.Danger }>click</Button>
       <Button btnType={ButtonType.Link} href="www.tabidu.com">click here</Button>
       <h1>Menu</h1>
-      <Menu onSelect={(val) => { console.log(val) }} defaultIndex={'0'}>
+      <Menu onSelect={(val) => { console.log(val) }} defaultIndex={'0'} mode="vertical">
          <MenuItem>
         active
       </MenuItem>
