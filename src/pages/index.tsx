@@ -3,6 +3,11 @@ import Button, {ButtonSize,ButtonType } from './../componemts/Button/button'
 import Menu from './../componemts/Menu/menu'
 import MenuItem from './../componemts/Menu/menuItem'
 import SubMenu from './../componemts/Menu/subMenu'
+import Icon from './../componemts/Icon/icon'
+import { library } from '@fortawesome/fontawesome-svg-core'
+// fas 所有图标的集合
+import { fas } from '@fortawesome/free-solid-svg-icons'
+library.add(fas)
 function Home() {
 
   return (
@@ -28,7 +33,9 @@ function Home() {
             <MenuItem>789</MenuItem>
         </SubMenu>
       </Menu>
-      
+      <h1>Icon</h1>
+      <Icon icon="arrow-down" theme="danger" size="10x"></Icon>
+      <Icon icon="arrow-down" theme="primary" size="10x"></Icon>
     </div>
   );
 }

@@ -10,7 +10,7 @@ const testProps: MenuProps = {
     className: 'test'
 }
 
-const testVerProps: MenPropps = {
+const testVerProps: MenuProps = {
   defaultIndex: 0,
   mode: 'vertical',
   // defaultOpenSubMenus: ['4']
